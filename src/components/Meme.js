@@ -59,7 +59,6 @@ export default function Meme() {
                     <option value="simpsons">The Simpsons</option>
                     <option value="rick+and+morty">Rick and Morty</option>
                     <option value="iasip">Its Always Sunny In Philadelphia.</option>
-                    <option value="the+office">The Office.</option>
                     <option value="parks+and+recreation">Parks and Recreation.</option>
 
 
