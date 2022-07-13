@@ -15,7 +15,8 @@ export default function Meme() {
 
     React.useEffect(() => {
         console.log("effect ran")
-        const api_key = "SCrH6EN3YHUbsSeGVFYssch0gphkOfFG";
+
+        const api_key = "SCrH6EN3YHUbsSeGVFYssch0gphkOfFG"
         let tag = gif.tvshow;
 
         fetch(`https://api.giphy.com/v1/gifs/random?api_key=${api_key}&tag=${tag}&rating=r`)
