@@ -1,71 +1,90 @@
 import React from "react";
-// import memesData from "../memesData.js";
+
+
 
 
 export default function Meme() {
-    const [meme, setMeme] = React.useState(
-        {
-            topText: "",
-            bottomText: "",
-            randomImage: "https://i.imgflip.com/30b1gx.jpg",//default meme image
-        }
-    );
-    const [allMemes, setAllMemes] = React.useState([])
+
+    const [gif, setGif] = React.useState({
+        randomGif: "",
+        tvshow: "",
+        caption: ""
+    });
+    const [fetchedGif, setFetchedGif] = React.useState("false");
+    console.log("component rendered")
+
     React.useEffect(() => {
-        fetch("https://api.imgflip.com/get_memes")
+        console.log("effect ran")
+        const api_key = "SCrH6EN3YHUbsSeGVFYssch0gphkOfFG";
+        let tag = gif.tvshow;
+
+        fetch(`https://api.giphy.com/v1/gifs/random?api_key=${api_key}&tag=${tag}&rating=r`)
             .then(res => res.json())
-            .then(data => setAllMemes(data.data.memes))
-    }, [])
+            .then(data => setGif(prevGif => ({
+                ...prevGif,
+                randomGif: data.data.images.fixed_height.url
+            }))
+            )
+    }, [fetchedGif, gif.tvshow])
 
-
-    function getMemeImage() {
-        const random = Math.floor(Math.random() * allMemes.length);
-        const url = allMemes[random].url
-        setMeme(prevMeme => ({
-            ...prevMeme,
-            randomImage: url
-        }))
+    function getRandomGiphy() {
+        setFetchedGif(!fetchedGif)
+        console.log('button clicked')
     }
     function handleChange(event) {
         const { name, value } = event.target;
-        setMeme(prevMeme => ({
-            ...prevMeme,
+        setGif(prevGif => ({
+            ...prevGif,
             [name]: value
-
         }))
 
+
     }
-    console.log(allMemes);
 
     return (
         <main>
             <div className="form">
+                <label htmlFor="show">Choose a TV show below.</label>
+                <select
+                    id="tvshow"
+                    value={gif.tvshow}
+                    onChange={handleChange}
+                    className="form--inputs"
+                    name="tvshow"
+                >
+                    <option value="">-- Choose a tv show --</option>
+                    <option value="the+office">The Office.</option>
+                    <option value="curb+your+enthusiasm">Curb Your Enthusiasm.</option>
+                    <option value="simpsons">The Simpsons</option>
+                    <option value="rick+and+morty">Rick and Morty</option>
+                    <option value="iasip">Its Always Sunny In Philadelphia.</option>
+                    <option value="the+office">The Office.</option>
+                    <option value="parks+and+recreation">Parks and Recreation.</option>
+
+
+                </select>
+                <p>Enter your caption here: </p>
                 <input
                     type="text"
-                    placeholder="Top text"
+                    placeholder="Caption"
                     className="form--inputs"
-                    name="topText"
+                    name="caption"
                     onChange={handleChange}
-                    value={meme.topText}
+                    value={gif.caption}
                 />
-                <input
-                    type="text"
-                    placeholder="Bottom text"
-                    className="form--inputs"
-                    name="bottomText"
-                    onChange={handleChange}
-                    value={meme.bottomText}
-                />
+
+
                 <button
-                    onClick={getMemeImage}
-                    className="form--button">Get a new meme image
+                    onClick={getRandomGiphy}
+                    className="form--button">Get a new giphy
                 </button>
             </div>
-            <div className="meme">
-                <div className="meme-img"><img src={meme.randomImage} alt="a meme" className="meme--img" /></div>
-                <h2 className="meme--text top">{meme.topText}</h2>
-                <h2 className="meme--text bottom">{meme.bottomText}</h2>
+            <div className="gif">
+                <div className="gif-img"><img src={gif.randomGif} alt="a meme" className="meme--img" /></div>
             </div>
+
+            <h2 className="gif--text caption"> {gif.caption}</h2>
+
         </main>
     )
 }
