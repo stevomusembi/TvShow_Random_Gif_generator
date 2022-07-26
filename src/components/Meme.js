@@ -10,7 +10,7 @@ export default function Meme() {
         tvshow: "",
         caption: ""
     });
-    const [fetchedGif, setFetchedGif] = React.useState("false");
+    const [fetchedGif, setFetchedGif] = React.useState(false);
     console.log("component rendered")
 
     React.useEffect(() => {
